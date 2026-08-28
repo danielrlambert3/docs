@@ -26073,8 +26073,8 @@
             "name": "include_stats",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": true,
+              "type": "boolean",
               "title": "Include Stats"
             }
           },
@@ -26084,9 +26084,9 @@
             "in": "query",
             "schema": {
               "maximum": 100,
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -26095,9 +26095,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -26307,8 +26307,8 @@
             "name": "get_examples",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Get Examples"
             }
           },
@@ -26326,8 +26326,8 @@
             "name": "include_model",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Include Model"
             }
           },
@@ -26335,8 +26335,8 @@
             "name": "is_view",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Is View"
             }
           }
@@ -27414,8 +27414,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -27450,8 +27450,8 @@
                 "forward",
                 "backward"
               ],
-              "type": "string",
               "default": "forward",
+              "type": "string",
               "title": "Direction"
             }
           }
@@ -28635,8 +28635,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 100,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -28645,8 +28645,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -37284,8 +37284,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -37303,8 +37303,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -37313,8 +37313,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -37364,8 +37364,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -37374,8 +37374,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -37384,8 +37384,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -38841,8 +38841,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -38860,8 +38860,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -38870,8 +38870,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -38921,8 +38921,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -38931,8 +38931,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -38941,8 +38941,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -41061,9 +41061,9 @@
             "in": "query",
             "schema": {
               "maximum": 100,
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -43448,9 +43448,9 @@
             "in": "query",
             "schema": {
               "maximum": 100,
-              "type": "integer",
-              "minimum": 1,
               "default": 50,
+              "minimum": 1,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -43458,9 +43458,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -44328,9 +44328,9 @@
             "in": "query",
             "schema": {
               "maximum": 100,
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -46916,6 +46916,10 @@
           "create_credential",
           "read_credential_secret",
           "read_credential_oauth2",
+          "create_oauth_provider",
+          "update_oauth_provider",
+          "delete_oauth_provider",
+          "start_oauth_connection",
           "create_tool",
           "update_tool",
           "delete_tool",
@@ -65913,6 +65917,7 @@
         "type": "string",
         "enum": [
           "agent",
+          "custom_app",
           "dashboard",
           "dataset",
           "deployment",
@@ -77242,6 +77247,10 @@
               "expanded"
             ]
           },
+          "auto_open_fix_pr": {
+            "description": "When true, every fix run on this board opens a pull request instead of\nparking the fix for someone to publish. Defaults to false.",
+            "type": "boolean"
+          },
           "context_hub_repo_handle": {
             "type": "string"
           },
@@ -77447,6 +77456,9 @@
               "reduced",
               "expanded"
             ]
+          },
+          "auto_open_fix_pr": {
+            "type": "boolean"
           },
           "context_hub_repo_handle": {
             "type": "string"
