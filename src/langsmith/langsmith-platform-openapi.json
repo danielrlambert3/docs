@@ -26073,8 +26073,8 @@
             "name": "include_stats",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": true,
+              "type": "boolean",
               "title": "Include Stats"
             }
           },
@@ -26083,9 +26083,9 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "maximum": 100,
               "title": "Limit"
             }
@@ -26095,9 +26095,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -26307,8 +26307,8 @@
             "name": "get_examples",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Get Examples"
             }
           },
@@ -26326,8 +26326,8 @@
             "name": "include_model",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Include Model"
             }
           },
@@ -26335,8 +26335,8 @@
             "name": "is_view",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Is View"
             }
           }
@@ -27400,12 +27400,12 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
               "enum": [
                 "needs_my_review",
                 "needs_others_review",
                 "archived"
               ],
+              "type": "string",
               "title": "Status"
             }
           },
@@ -27414,8 +27414,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -27433,11 +27433,11 @@
             "name": "item_type",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "RUN",
                 "THREAD"
               ],
+              "type": "string",
               "title": "Item Type"
             }
           },
@@ -27446,12 +27446,12 @@
             "name": "direction",
             "in": "query",
             "schema": {
-              "type": "string",
+              "default": "forward",
               "enum": [
                 "forward",
                 "backward"
               ],
-              "default": "forward",
+              "type": "string",
               "title": "Direction"
             }
           }
@@ -28582,10 +28582,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -28605,10 +28605,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -28635,8 +28635,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 100,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -28645,8 +28645,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -28813,10 +28813,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Evaluator Ids"
             }
           },
@@ -28947,10 +28947,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -28979,10 +28979,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -30500,11 +30500,11 @@
             "name": "repo_type",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "agent",
                 "skill"
               ],
+              "type": "string",
               "title": "Repo Type"
             }
           }
@@ -30732,7 +30732,6 @@
             "name": "status",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "open",
                 "fixing",
@@ -30740,6 +30739,7 @@
                 "completed",
                 "ignored"
               ],
+              "type": "string",
               "title": "Status"
             }
           },
@@ -30748,13 +30748,13 @@
             "name": "severity",
             "in": "query",
             "schema": {
-              "type": "integer",
               "enum": [
                 0,
                 1,
                 2,
                 3
               ],
+              "type": "integer",
               "title": "Severity"
             }
           },
@@ -30765,7 +30765,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   0,
@@ -30775,6 +30774,7 @@
                 ],
                 "type": "integer"
               },
+              "type": "array",
               "title": "Severity Exact"
             }
           },
@@ -30785,7 +30785,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "fixing",
@@ -30794,6 +30793,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Activity"
             }
           },
@@ -30830,7 +30830,6 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "default",
                 "created_at",
@@ -30840,6 +30839,7 @@
                 "trace_count",
                 "severity"
               ],
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -33190,10 +33190,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Name Like"
             }
           },
@@ -33204,10 +33204,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Email Like"
             }
           },
@@ -33218,10 +33218,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Name Like"
             }
           },
@@ -33232,10 +33232,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Organization Role Like"
             }
           },
@@ -33246,10 +33246,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Role Like"
             }
           }
@@ -33472,10 +33472,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Access Policy Ids"
             }
           }
@@ -35934,10 +35934,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36031,10 +36031,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36120,10 +36120,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -36246,10 +36246,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36364,10 +36364,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36771,7 +36771,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -36822,6 +36821,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -37294,8 +37294,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -37313,8 +37313,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -37323,8 +37323,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -37362,10 +37362,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -37374,8 +37374,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -37384,8 +37384,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -37394,8 +37394,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -38851,8 +38851,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -38870,8 +38870,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -38880,8 +38880,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -38919,10 +38919,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -38931,8 +38931,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -38941,8 +38941,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -38951,8 +38951,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -40886,7 +40886,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "TURNS",
@@ -40909,6 +40908,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -41070,9 +41070,9 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "maximum": 100,
               "title": "Page Size"
             }
@@ -41099,7 +41099,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "THREAD_ID",
@@ -41129,6 +41128,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -41463,7 +41463,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -41514,6 +41513,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -43457,9 +43457,9 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 1,
               "default": 50,
+              "minimum": 1,
+              "type": "integer",
               "maximum": 100,
               "title": "Limit"
             }
@@ -43468,9 +43468,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -44337,9 +44337,9 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "minimum": 1,
               "default": 20,
+              "minimum": 1,
+              "type": "integer",
               "maximum": 100,
               "title": "Page Size"
             }
@@ -61640,6 +61640,28 @@
             "title": "Permissions",
             "default": []
           },
+          "org_role_name": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationRoles"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "org_role_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Org Role Id"
+          },
           "disabled": {
             "type": "boolean",
             "title": "Disabled",
@@ -62190,6 +62212,17 @@
         ],
         "title": "OrganizationPGSchemaSlim",
         "description": "Schema for an organization in postgres for list views."
+      },
+      "OrganizationRoles": {
+        "type": "string",
+        "enum": [
+          "ORGANIZATION_ADMIN",
+          "ORGANIZATION_OPERATOR",
+          "ORGANIZATION_USER",
+          "ORGANIZATION_VIEWER",
+          "ORGANIZATION_RESTRICTED"
+        ],
+        "title": "OrganizationRoles"
       },
       "OrganizationUpdate": {
         "properties": {
@@ -78705,6 +78738,7 @@
           "fleet:write-admin-config",
           "organization:pats:create",
           "organization:read",
+          "organization:read-metadata",
           "organization:manage",
           "organization:manage-model-configs",
           "organization:manage-model-secrets"
@@ -78804,6 +78838,7 @@
           "FleetWriteAdminConfig",
           "OrganizationPATsCreate",
           "OrganizationRead",
+          "OrganizationReadMetadata",
           "OrganizationManage",
           "OrganizationManageModelConfigs",
           "OrganizationManageModelSecrets"
@@ -79077,6 +79112,15 @@
           "allowed_domains"
         ],
         "properties": {
+          "allowed_cidrs": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
           "allowed_domains": {
             "type": "array",
             "items": {
@@ -79226,6 +79270,15 @@
       "data_planes.UpdateDataPlaneFirewallSettings": {
         "type": "object",
         "properties": {
+          "allowed_cidrs": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
           "allowed_domains": {
             "type": "array",
             "items": {
@@ -81873,6 +81926,31 @@
           "member_disabled": {
             "type": "boolean"
           },
+          "org_role_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "org_role_name": {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/orgs.OrganizationRole"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "pat_creation_disabled": {
             "type": "boolean"
           },
@@ -81907,6 +81985,23 @@
             "type": "boolean"
           }
         }
+      },
+      "orgs.OrganizationRole": {
+        "type": "string",
+        "enum": [
+          "ORGANIZATION_ADMIN",
+          "ORGANIZATION_OPERATOR",
+          "ORGANIZATION_USER",
+          "ORGANIZATION_VIEWER",
+          "ORGANIZATION_RESTRICTED"
+        ],
+        "x-enum-varnames": [
+          "OrganizationRoleAdmin",
+          "OrganizationRoleOperator",
+          "OrganizationRoleUser",
+          "OrganizationRoleViewer",
+          "OrganizationRoleRestricted"
+        ]
       },
       "orgs.SCIMGroup": {
         "type": "object",
@@ -83888,6 +83983,25 @@
           },
           "name": {
             "type": "string"
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "DOCKER_REGISTRY",
+              "HARBOR",
+              "GHCR",
+              "ECR",
+              "GAR",
+              "DOCKER_HUB"
+            ]
+          },
+          "repository_search_mode": {
+            "type": "string",
+            "enum": [
+              "GLOBAL",
+              "SCOPED",
+              "NONE"
+            ]
           },
           "updated_at": {
             "type": "string"
