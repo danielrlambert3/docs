@@ -26025,10 +26025,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "minimum": 1,
-              "maximum": 100,
               "default": 20,
               "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -26037,9 +26037,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "minimum": 0,
               "default": 0,
               "type": "integer",
+              "minimum": 0,
               "title": "Offset"
             }
           },
@@ -27342,12 +27342,12 @@
             "in": "query",
             "required": true,
             "schema": {
+              "type": "string",
               "enum": [
                 "needs_my_review",
                 "needs_others_review",
                 "archived"
               ],
-              "type": "string",
               "title": "Status"
             }
           },
@@ -27375,11 +27375,11 @@
             "name": "item_type",
             "in": "query",
             "schema": {
+              "type": "string",
               "enum": [
                 "RUN",
                 "THREAD"
               ],
-              "type": "string",
               "title": "Item Type"
             }
           },
@@ -27389,11 +27389,11 @@
             "in": "query",
             "schema": {
               "default": "forward",
+              "type": "string",
               "enum": [
                 "forward",
                 "backward"
               ],
-              "type": "string",
               "title": "Direction"
             }
           }
@@ -30442,11 +30442,11 @@
             "name": "repo_type",
             "in": "query",
             "schema": {
+              "type": "string",
               "enum": [
                 "agent",
                 "skill"
               ],
-              "type": "string",
               "title": "Repo Type"
             }
           }
@@ -30674,6 +30674,7 @@
             "name": "status",
             "in": "query",
             "schema": {
+              "type": "string",
               "enum": [
                 "open",
                 "fixing",
@@ -30681,7 +30682,6 @@
                 "completed",
                 "ignored"
               ],
-              "type": "string",
               "title": "Status"
             }
           },
@@ -30690,13 +30690,13 @@
             "name": "severity",
             "in": "query",
             "schema": {
+              "type": "integer",
               "enum": [
                 0,
                 1,
                 2,
                 3
               ],
-              "type": "integer",
               "title": "Severity"
             }
           },
@@ -30772,6 +30772,7 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
+              "type": "string",
               "enum": [
                 "default",
                 "created_at",
@@ -30781,7 +30782,6 @@
                 "trace_count",
                 "severity"
               ],
-              "type": "string",
               "title": "Sort By"
             }
           },
@@ -41144,10 +41144,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "minimum": 1,
-              "maximum": 100,
               "default": 20,
               "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -43531,10 +43531,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "minimum": 1,
-              "maximum": 100,
               "default": 50,
               "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -43542,9 +43542,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "minimum": 0,
               "default": 0,
               "type": "integer",
+              "minimum": 0,
               "title": "Offset"
             }
           }
@@ -44507,10 +44507,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "minimum": 1,
-              "maximum": 100,
               "default": 20,
               "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
