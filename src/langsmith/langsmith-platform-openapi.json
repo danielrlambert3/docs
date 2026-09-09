@@ -21065,12 +21065,87 @@
         "x-public": true
       }
     },
+    "/api/v1/orgs/current/members/personal-access-tokens": {
+      "get": {
+        "tags": [
+          "orgs"
+        ],
+        "summary": "List all org personal access tokens",
+        "description": "List every organization member's personal access tokens.",
+        "operationId": "list_all_org_personal_access_tokens_api_v1_orgs_current_members_personal_access_tokens_get",
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "Organization ID": []
+          },
+          {
+            "Bearer Auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "workspace_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "default": [],
+              "title": "Workspace Ids"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/APIKeyGetResponse"
+                  },
+                  "title": "Response List All Org Personal Access Tokens Api V1 Orgs Current Members Personal Access Tokens Get"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller may not view other members' tokens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-public": true
+      }
+    },
     "/api/v1/orgs/current/personal-access-tokens/{pat_id}": {
       "delete": {
         "tags": [
           "orgs"
         ],
         "summary": "Delete org personal access token",
+        "description": "Delete a personal access token, removing the record entirely.\n\nCallers may always delete their own tokens; organization admins may delete\nany member's.",
         "operationId": "delete_org_personal_access_token_api_v1_orgs_current_personal_access_tokens__pat_id__delete",
         "security": [
           {
@@ -21102,6 +21177,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/APIKeyGetResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The personal access token does not exist, or belongs to another member and the caller may not administer other members' tokens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -26026,9 +26111,9 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 1,
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -26038,8 +26123,8 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
               "title": "Offset"
             }
           },
@@ -27389,11 +27474,11 @@
             "in": "query",
             "schema": {
               "type": "string",
+              "default": "forward",
               "enum": [
                 "forward",
                 "backward"
               ],
-              "default": "forward",
               "title": "Direction"
             }
           }
@@ -28524,10 +28609,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -28547,10 +28632,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -28755,10 +28840,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Evaluator Ids"
             }
           },
@@ -28889,10 +28974,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -28921,10 +29006,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -30707,7 +30792,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   0,
@@ -30717,6 +30801,7 @@
                 ],
                 "type": "integer"
               },
+              "type": "array",
               "title": "Severity Exact"
             }
           },
@@ -30727,7 +30812,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "fixing",
@@ -30736,6 +30820,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Activity"
             }
           },
@@ -33132,10 +33217,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Name Like"
             }
           },
@@ -33146,10 +33231,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Email Like"
             }
           },
@@ -33160,10 +33245,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Name Like"
             }
           },
@@ -33174,10 +33259,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Organization Role Like"
             }
           },
@@ -33188,10 +33273,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Role Like"
             }
           }
@@ -33414,10 +33499,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Access Policy Ids"
             }
           }
@@ -35887,10 +35972,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -35984,10 +36069,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36078,10 +36163,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -36212,10 +36297,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36335,10 +36420,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36732,7 +36817,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -36784,6 +36868,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -37320,10 +37405,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -38900,10 +38985,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -40960,7 +41045,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "TURNS",
@@ -40983,6 +41067,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -41145,9 +41230,9 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 1,
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -41173,7 +41258,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "THREAD_ID",
@@ -41203,6 +41287,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -41537,7 +41622,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -41589,6 +41673,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -43532,9 +43617,9 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 1,
               "default": 50,
               "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -43543,8 +43628,8 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 0,
               "default": 0,
+              "minimum": 0,
               "title": "Offset"
             }
           }
@@ -44508,9 +44593,9 @@
             "in": "query",
             "schema": {
               "type": "integer",
-              "minimum": 1,
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -46561,6 +46646,18 @@
               }
             ],
             "title": "Resource Ids"
+          },
+          "resource_owner_ls_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resource Owner Ls User Id",
+            "description": "LangSmith user ID of the member the resource belonged to, set when that is not the actor."
           }
         },
         "type": "object",
@@ -46742,6 +46839,9 @@
           "delete_tag_value",
           "create_tagging",
           "delete_tagging",
+          "create_agent",
+          "update_agent",
+          "create_agent_runtime_binding",
           "update_tracer_session",
           "delete_tracer_session",
           "delete_tracer_sessions",
@@ -47034,6 +47134,7 @@
           "get_sso_settings_current",
           "list_org_service_keys",
           "list_org_personal_access_tokens",
+          "list_all_org_personal_access_tokens",
           "list_service_accounts",
           "list_filter_views",
           "get_filter_view",
@@ -62910,6 +63011,35 @@
         ],
         "title": "PopulateAnnotationQueueSchema"
       },
+      "ProblemDetails": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "type": "integer",
+            "title": "Status"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "status",
+          "detail"
+        ],
+        "title": "ProblemDetails",
+        "description": "Problem details describing an error response, as defined by RFC 7807."
+      },
       "PromptOptimizationJob": {
         "properties": {
           "id": {
@@ -67463,7 +67593,10 @@
             "anyOf": [
               {
                 "type": "string",
-                "const": "thread_id"
+                "enum": [
+                  "thread_id",
+                  "trajectory_id"
+                ]
               },
               {
                 "type": "null"
@@ -67984,7 +68117,10 @@
             "anyOf": [
               {
                 "type": "string",
-                "const": "thread_id"
+                "enum": [
+                  "thread_id",
+                  "trajectory_id"
+                ]
               },
               {
                 "type": "null"
@@ -68333,7 +68469,10 @@
             "anyOf": [
               {
                 "type": "string",
-                "const": "thread_id"
+                "enum": [
+                  "thread_id",
+                  "trajectory_id"
+                ]
               },
               {
                 "type": "null"
@@ -68641,7 +68780,10 @@
             "anyOf": [
               {
                 "type": "string",
-                "const": "thread_id"
+                "enum": [
+                  "thread_id",
+                  "trajectory_id"
+                ]
               },
               {
                 "type": "null"
@@ -77842,6 +77984,31 @@
       "data_planes.CreateDataPlaneRequestAws": {
         "type": "object",
         "properties": {
+          "byovpc_id": {
+            "description": "The ID of the customer-managed VPC to deploy into when deploying in BYOVPC mode.",
+            "type": "string"
+          },
+          "byovpc_private_app_subnet_ids": {
+            "description": "The subnet IDs of the private app subnets to deploy into when deploying in BYOVPC mode.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "byovpc_private_db_subnet_ids": {
+            "description": "The subnet IDs of the private database subnets to deploy into when deploying in BYOVPC mode.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "byovpc_public_subnet_ids": {
+            "description": "The subnet IDs of the optional public subnets to deploy into when deploying in BYOVPC mode.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "external_id": {
             "type": "string"
           },
@@ -77858,6 +78025,7 @@
             "type": "string"
           },
           "vpc_cidr": {
+            "description": "VPCCIDR is used only when LangSmith creates the VPC.",
             "type": "string"
           }
         }
@@ -82041,6 +82209,23 @@
           }
         ]
       },
+      "sandboxapi.RunConfig": {
+        "type": "object",
+        "properties": {
+          "env_vars": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "user": {
+            "type": "string"
+          },
+          "work_dir": {
+            "type": "string"
+          }
+        }
+      },
       "sandboxapi.S3MountSpec": {
         "type": "object",
         "required": [
@@ -82193,6 +82378,14 @@
           "name": {
             "type": "string"
           },
+          "run_config": {
+            "description": "RunConfig overrides the runtime configuration the snapshot carries: for a\ndocker_image export, the image's USER, WORKDIR and ENV; for a capture of\nthe running VM, the sandbox's own. user and work_dir replace, env_vars\nmerge.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
+          },
           "tag": {
             "description": "mutable Docker-style tag; defaults to \"latest\"",
             "type": "string"
@@ -82283,6 +82476,14 @@
             "description": "RestoreMemory selects how the sandbox handles a snapshot's captured memory:\n\n  nil   → if-present: resume from memory when the snapshot has it, else cold-boot (default).\n  true  → always: resume from memory; rejected if the snapshot has none.\n  false → never: always cold-boot.\n\nApplies to this request only.",
             "type": "boolean"
           },
+          "run_config": {
+            "description": "RunConfig overrides the snapshot's run config for this sandbox: user and\nwork_dir replace the snapshot's, env_vars merge over it. The result is\nwhat the sandbox boots with, and what a snapshot captured from it carries.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
+          },
           "snapshot": {
             "description": "Snapshot is a Docker-style name or name:tag reference to boot from. A bare name resolves to name:latest.",
             "type": "string"
@@ -82337,6 +82538,14 @@
           },
           "registry_id": {
             "type": "string"
+          },
+          "run_config": {
+            "description": "RunConfig overrides the runtime configuration taken from the Docker image.\nEvery sandbox created from the snapshot runs as the image's USER, in its\nWORKDIR, with its ENV beneath the sandbox's own env_vars; user and\nwork_dir given here replace the image's, and env_vars merge over it.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
           },
           "tag": {
             "description": "mutable Docker-style tag; defaults to \"latest\"",
@@ -82421,13 +82630,25 @@
             }
           },
           "cwd": {
-            "type": "string"
+            "description": "Deprecated: use run_config.work_dir. Rejected when run_config is also set.",
+            "type": "string",
+            "deprecated": true
           },
           "env": {
+            "description": "Deprecated: use run_config.env_vars. Rejected when run_config is also set.",
             "type": "object",
             "additionalProperties": {
               "type": "string"
-            }
+            },
+            "deprecated": true
+          },
+          "run_config": {
+            "description": "RunConfig overrides, for this command only, the user, working directory and env the sandbox's commands run with.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
           },
           "shell": {
             "type": "string"
@@ -82466,17 +82687,29 @@
             "type": "string"
           },
           "cwd": {
-            "type": "string"
+            "description": "Deprecated: use run_config.work_dir. Rejected when run_config is also set.",
+            "type": "string",
+            "deprecated": true
           },
           "env": {
+            "description": "Deprecated: use run_config.env_vars. Rejected when run_config is also set.",
             "type": "object",
             "additionalProperties": {
               "type": "string"
-            }
+            },
+            "deprecated": true
           },
           "idle_timeout_seconds": {
             "description": "0 = default, -1 = never idle-kill",
             "type": "integer"
+          },
+          "run_config": {
+            "description": "RunConfig overrides, for this command only, the user, working directory and env the sandbox's commands run with.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
           },
           "shell": {
             "type": "string"
@@ -82957,6 +83190,14 @@
           "proxy_config": {
             "$ref": "#/components/schemas/sandboxes.ProxyConfig"
           },
+          "run_config": {
+            "description": "RunConfig is what the sandbox's commands run with: the user, working directory and base env beneath env_vars.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
+          },
           "size_class": {
             "type": "string"
           },
@@ -83115,6 +83356,14 @@
           "registry_id": {
             "type": "string"
           },
+          "run_config": {
+            "description": "RunConfig is what sandboxes from this snapshot boot with. Absent on\nsnapshots built before it was recorded, which run as root with their own env.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
+          },
           "source_sandbox_id": {
             "type": "string"
           },
@@ -83189,6 +83438,14 @@
           },
           "proxy_config": {
             "$ref": "#/components/schemas/sandboxes.ProxyConfig"
+          },
+          "run_config": {
+            "description": "RunConfig changes what subsequent commands run with: user and work_dir\nreplace the current values, env_vars merge over them. Commands already\nrunning are unaffected.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/sandboxapi.RunConfig"
+              }
+            ]
           },
           "tag_value_ids": {
             "type": "array",
@@ -83738,6 +83995,11 @@
           "select"
         ],
         "properties": {
+          "filter": {
+            "description": "`filter` is a deprecated, unscoped LangSmith filter expression evaluated\nagainst trace root runs. Kept for compatibility with deployments that\nserve this endpoint via the legacy ClickHouse backend (no SmithDB query\nservice configured); prefer `trace_filter`, `tree_filter`, or\n`thread_filter` otherwise, since those require SmithDB.",
+            "type": "string",
+            "example": "eq(status, \"error\")"
+          },
           "max_start_time": {
             "description": "`max_start_time` is the exclusive upper bound on thread activity (RFC3339 date-time). Defaults to now (UTC) when omitted.",
             "type": "string",
