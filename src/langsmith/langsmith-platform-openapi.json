@@ -21211,7 +21211,7 @@
           "orgs"
         ],
         "summary": "Revoke org personal access token",
-        "description": "Revoke a personal access token, so it stops working but its record remains.\n\nThe token is marked revoked rather than deleted, and its expiry is moved to the\nrevocation time so it stops authenticating. Callers may always revoke their own\ntokens; organization admins may revoke any member's.",
+        "description": "Revoke a personal access token, so it stops working but its record remains.\n\nThe token is marked revoked rather than deleted, and stops authenticating as\nsoon as its cached auth entry refreshes. Its expiry is left untouched, so the\nrevocation can be lifted by deleting it. Callers may always revoke their own\ntokens; organization admins may revoke any member's.",
         "operationId": "revoke_org_personal_access_token_api_v1_orgs_current_personal_access_tokens__pat_id__revocation_post",
         "security": [
           {
@@ -21246,6 +21246,63 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "The personal access token does not exist, or belongs to another member and the caller may not administer other members' tokens.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-public": true
+      },
+      "delete": {
+        "tags": [
+          "orgs"
+        ],
+        "summary": "Reinstate org personal access token",
+        "description": "Lift a revocation, so the personal access token authenticates again.\n\nThe token returns to the expiry it was created with, and one whose expiry has\nsince passed stays expired. If the token was used while revoked, it starts\nworking again once the rejection leaves the authentication cache. Lifting a\nrevocation that is not there changes nothing. Callers may always administer\ntheir own tokens; organization admins may administer any member's.",
+        "operationId": "reinstate_org_personal_access_token_api_v1_orgs_current_personal_access_tokens__pat_id__revocation_delete",
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "Organization ID": []
+          },
+          {
+            "Bearer Auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Pat Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
           },
           "404": {
             "description": "The personal access token does not exist, or belongs to another member and the caller may not administer other members' tokens.",
@@ -26166,8 +26223,8 @@
             "name": "include_stats",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": true,
+              "type": "boolean",
               "title": "Include Stats"
             }
           },
@@ -26176,10 +26233,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 1,
-              "maximum": 100,
               "default": 20,
+              "maximum": 100,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -26188,9 +26245,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 0,
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -26400,8 +26457,8 @@
             "name": "get_examples",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Get Examples"
             }
           },
@@ -26419,8 +26476,8 @@
             "name": "include_model",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Include Model"
             }
           },
@@ -26428,8 +26485,8 @@
             "name": "is_view",
             "in": "query",
             "schema": {
-              "type": "boolean",
               "default": false,
+              "type": "boolean",
               "title": "Is View"
             }
           }
@@ -27493,12 +27550,12 @@
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string",
               "enum": [
                 "needs_my_review",
                 "needs_others_review",
                 "archived"
               ],
+              "type": "string",
               "title": "Status"
             }
           },
@@ -27507,8 +27564,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -27526,11 +27583,11 @@
             "name": "item_type",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "RUN",
                 "THREAD"
               ],
+              "type": "string",
               "title": "Item Type"
             }
           },
@@ -27559,12 +27616,12 @@
             "name": "direction",
             "in": "query",
             "schema": {
-              "type": "string",
+              "default": "forward",
               "enum": [
                 "forward",
                 "backward"
               ],
-              "default": "forward",
+              "type": "string",
               "title": "Direction"
             }
           }
@@ -28715,10 +28772,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -28738,10 +28795,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -28768,8 +28825,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 100,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -28778,8 +28835,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -28946,10 +29003,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Evaluator Ids"
             }
           },
@@ -29080,10 +29137,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Id"
             }
           },
@@ -29112,10 +29169,10 @@
             "style": "form",
             "explode": false,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Tag Value Id"
             }
           },
@@ -30633,11 +30690,11 @@
             "name": "repo_type",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "agent",
                 "skill"
               ],
+              "type": "string",
               "title": "Repo Type"
             }
           }
@@ -30865,7 +30922,6 @@
             "name": "status",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "open",
                 "fixing",
@@ -30873,6 +30929,7 @@
                 "completed",
                 "ignored"
               ],
+              "type": "string",
               "title": "Status"
             }
           },
@@ -30881,13 +30938,13 @@
             "name": "severity",
             "in": "query",
             "schema": {
-              "type": "integer",
               "enum": [
                 0,
                 1,
                 2,
                 3
               ],
+              "type": "integer",
               "title": "Severity"
             }
           },
@@ -30898,7 +30955,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   0,
@@ -30908,6 +30964,7 @@
                 ],
                 "type": "integer"
               },
+              "type": "array",
               "title": "Severity Exact"
             }
           },
@@ -30918,7 +30975,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "fixing",
@@ -30927,6 +30983,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Activity"
             }
           },
@@ -30963,7 +31020,6 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "default",
                 "created_at",
@@ -30973,6 +31029,7 @@
                 "trace_count",
                 "severity"
               ],
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -33323,10 +33380,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Name Like"
             }
           },
@@ -33337,10 +33394,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Email Like"
             }
           },
@@ -33351,10 +33408,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Name Like"
             }
           },
@@ -33365,10 +33422,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Organization Role Like"
             }
           },
@@ -33379,10 +33436,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Workspace Role Like"
             }
           }
@@ -33605,10 +33662,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Access Policy Ids"
             }
           }
@@ -36192,10 +36249,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36289,10 +36346,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36383,10 +36440,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -36517,10 +36574,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -36640,10 +36697,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -37037,7 +37094,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -37089,6 +37145,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -37557,8 +37614,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -37576,8 +37633,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -37586,8 +37643,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -37625,10 +37682,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -37637,8 +37694,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -37647,8 +37704,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -37657,8 +37714,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -39147,8 +39204,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 20,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -39166,8 +39223,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 50,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -39176,8 +39233,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           },
@@ -39215,10 +39272,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Label"
             }
           },
@@ -39227,8 +39284,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "created_at",
+              "type": "string",
               "title": "Sort By"
             }
           },
@@ -39237,8 +39294,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Order"
             }
           },
@@ -39247,8 +39304,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "type": "string",
               "default": "desc",
+              "type": "string",
               "title": "Sort Direction"
             }
           }
@@ -39716,11 +39773,11 @@
             "name": "resource_type",
             "in": "query",
             "schema": {
-              "type": "string",
               "enum": [
                 "SANDBOX",
                 "SNAPSHOT"
               ],
+              "type": "string",
               "title": "Resource Type"
             }
           },
@@ -39731,10 +39788,10 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "type": "string"
               },
+              "type": "array",
               "title": "Resource Ids"
             }
           },
@@ -39743,10 +39800,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 1,
-              "maximum": 100,
               "default": 20,
+              "maximum": 100,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -41419,7 +41476,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "TURNS",
@@ -41442,6 +41498,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           },
@@ -41603,10 +41660,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 1,
-              "maximum": 100,
               "default": 20,
+              "maximum": 100,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -41632,7 +41689,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "THREAD_ID",
@@ -41658,10 +41714,12 @@
                   "PROMPT_COST_DETAILS",
                   "COMPLETION_COST_DETAILS",
                   "NAME",
-                  "ERROR_PREVIEW"
+                  "ERROR_PREVIEW",
+                  "TURN_NUMBER"
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -41738,7 +41796,7 @@
             }
           },
           "501": {
-            "description": "V2 filter syntax is unavailable for this deployment; use legacy function-style filters or set SMITHDB_QUERY_ENABLED=true",
+            "description": "V2 filter syntax or TURN_NUMBER is unavailable for this deployment",
             "content": {
               "application/json": {
                 "schema": {
@@ -41996,7 +42054,6 @@
             "style": "form",
             "explode": true,
             "schema": {
-              "type": "array",
               "items": {
                 "enum": [
                   "ID",
@@ -42048,6 +42105,7 @@
                 ],
                 "type": "string"
               },
+              "type": "array",
               "title": "Selects"
             }
           }
@@ -43990,10 +44048,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 1,
-              "maximum": 100,
               "default": 50,
+              "maximum": 100,
+              "type": "integer",
               "title": "Limit"
             }
           },
@@ -44001,9 +44059,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 0,
               "default": 0,
+              "type": "integer",
               "title": "Offset"
             }
           }
@@ -44966,10 +45024,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "type": "integer",
               "minimum": 1,
-              "maximum": 100,
               "default": 20,
+              "maximum": 100,
+              "type": "integer",
               "title": "Page Size"
             }
           },
@@ -47184,6 +47242,7 @@
           "create_personal_access_token",
           "delete_personal_access_token",
           "revoke_personal_access_token",
+          "reinstate_personal_access_token",
           "create_service_key",
           "delete_service_key",
           "update_service_key",
@@ -47241,6 +47300,7 @@
           "delete_tagging",
           "create_agent",
           "update_agent",
+          "delete_agent",
           "create_agent_runtime_binding",
           "update_tracer_session",
           "delete_tracer_session",
@@ -77492,8 +77552,8 @@
             "type": "boolean"
           },
           "byoc_external_id": {
-            "readOnly": true,
             "description": "ByocExternalID is the organization's assigned AWS external ID, stored only in org config.",
+            "readOnly": true,
             "anyOf": [
               {
                 "type": "string"
@@ -85403,6 +85463,12 @@
             "type": "string",
             "format": "uuid",
             "example": "018e4c7e-a9fb-7ef0-a5b6-6ea3a82e9327"
+          },
+          "turn_number": {
+            "description": "`turn_number` is the 1-based position in the whole thread, ordered by start_time then trace_id ascending, before filtering or pagination. Updates and deletions can change this position. Omitted unless TURN_NUMBER is included in `selects`.",
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
           }
         }
       },
@@ -85432,7 +85498,8 @@
           "PROMPT_COST_DETAILS",
           "COMPLETION_COST_DETAILS",
           "NAME",
-          "ERROR_PREVIEW"
+          "ERROR_PREVIEW",
+          "TURN_NUMBER"
         ],
         "x-enum-varnames": [
           "ThreadTraceSelectThreadID",
@@ -85458,7 +85525,8 @@
           "ThreadTraceSelectPromptCostDetails",
           "ThreadTraceSelectCompletionCostDetails",
           "ThreadTraceSelectName",
-          "ThreadTraceSelectErrorPreview"
+          "ThreadTraceSelectErrorPreview",
+          "ThreadTraceSelectTurnNumber"
         ]
       },
       "threadshare.CreateShareTokenRequestBody": {
