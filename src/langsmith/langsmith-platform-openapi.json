@@ -26233,9 +26233,9 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "maximum": 100,
               "default": 20,
               "minimum": 1,
+              "maximum": 100,
               "type": "integer",
               "title": "Limit"
             }
@@ -39819,9 +39819,9 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "maximum": 100,
               "default": 20,
               "minimum": 1,
+              "maximum": 100,
               "type": "integer",
               "title": "Page Size"
             }
@@ -41693,9 +41693,9 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "maximum": 100,
               "default": 20,
               "minimum": 1,
+              "maximum": 100,
               "type": "integer",
               "title": "Page Size"
             }
@@ -44099,9 +44099,9 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "maximum": 100,
               "default": 50,
               "minimum": 1,
+              "maximum": 100,
               "type": "integer",
               "title": "Limit"
             }
@@ -45075,9 +45075,9 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "maximum": 100,
               "default": 20,
               "minimum": 1,
+              "maximum": 100,
               "type": "integer",
               "title": "Page Size"
             }
