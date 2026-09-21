@@ -26223,8 +26223,8 @@
             "name": "include_stats",
             "in": "query",
             "schema": {
-              "default": true,
               "type": "boolean",
+              "default": true,
               "title": "Include Stats"
             }
           },
@@ -26233,10 +26233,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "default": 20,
-              "minimum": 1,
-              "maximum": 100,
               "type": "integer",
+              "minimum": 1,
+              "default": 20,
+              "maximum": 100,
               "title": "Limit"
             }
           },
@@ -26245,9 +26245,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "default": 0,
-              "minimum": 0,
               "type": "integer",
+              "minimum": 0,
+              "default": 0,
               "title": "Offset"
             }
           },
@@ -26457,8 +26457,8 @@
             "name": "get_examples",
             "in": "query",
             "schema": {
-              "default": false,
               "type": "boolean",
+              "default": false,
               "title": "Get Examples"
             }
           },
@@ -26476,8 +26476,8 @@
             "name": "include_model",
             "in": "query",
             "schema": {
-              "default": false,
               "type": "boolean",
+              "default": false,
               "title": "Include Model"
             }
           },
@@ -26485,8 +26485,8 @@
             "name": "is_view",
             "in": "query",
             "schema": {
-              "default": false,
               "type": "boolean",
+              "default": false,
               "title": "Is View"
             }
           }
@@ -27564,8 +27564,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
               "type": "integer",
+              "default": 20,
               "title": "Page Size"
             }
           },
@@ -27616,12 +27616,12 @@
             "name": "direction",
             "in": "query",
             "schema": {
-              "default": "forward",
               "enum": [
                 "forward",
                 "backward"
               ],
               "type": "string",
+              "default": "forward",
               "title": "Direction"
             }
           }
@@ -28834,8 +28834,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "default": 100,
               "type": "integer",
+              "default": 100,
               "title": "Limit"
             }
           },
@@ -28844,8 +28844,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "default": 0,
               "type": "integer",
+              "default": 0,
               "title": "Offset"
             }
           }
@@ -37633,8 +37633,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
               "type": "integer",
+              "default": 20,
               "title": "Page Size"
             }
           },
@@ -37652,8 +37652,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "default": 50,
               "type": "integer",
+              "default": 50,
               "title": "Limit"
             }
           },
@@ -37662,8 +37662,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "default": 0,
               "type": "integer",
+              "default": 0,
               "title": "Offset"
             }
           },
@@ -37713,8 +37713,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "default": "created_at",
               "type": "string",
+              "default": "created_at",
               "title": "Sort By"
             }
           },
@@ -37723,8 +37723,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "default": "desc",
               "type": "string",
+              "default": "desc",
               "title": "Sort Order"
             }
           },
@@ -37733,8 +37733,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "default": "desc",
               "type": "string",
+              "default": "desc",
               "title": "Sort Direction"
             }
           }
@@ -38423,6 +38423,211 @@
             }
           }
         }
+      }
+    },
+    "/api/v2/sandboxes/boxes/{name}/service-urls": {
+      "get": {
+        "description": "Returns one entry per port the sandbox is currently reachable on, so a caller can see what is shared before turning it off. Expired token grants are omitted.\nCursors are opaque and only valid on this endpoint; do not parse or construct one.",
+        "tags": [
+          "sandboxes"
+        ],
+        "summary": "List a sandbox's shared service urls",
+        "parameters": [
+          {
+            "description": "Sandbox name or ID",
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results per page",
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Page Size"
+            }
+          },
+          {
+            "description": "Opaque pagination cursor from a prior response's next_cursor",
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sandboxes.ServiceURLGrantListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid page_size or cursor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "forbidden (insufficient permission)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "sandbox not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "API Key": [],
+            "Tenant ID": []
+          },
+          {
+            "Bearer Auth": [],
+            "Tenant ID": []
+          }
+        ],
+        "x-public": true
+      },
+      "delete": {
+        "description": "Removes the sharing grant for one port, or for every port when port is omitted. A LangSmith login URL stops working immediately. A previously minted service token is not revoked and stays valid until it expires, but no new one can be issued from the removed grant.",
+        "tags": [
+          "sandboxes"
+        ],
+        "summary": "Stop sharing a sandbox service URL",
+        "parameters": [
+          {
+            "description": "Sandbox name or ID",
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Port to stop sharing. Omit to stop sharing every port.",
+            "name": "port",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "title": "Port"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "deleted"
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "missing or invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "forbidden (insufficient permission)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "sandbox not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/shared.ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "API Key": [],
+            "Tenant ID": []
+          },
+          {
+            "Bearer Auth": [],
+            "Tenant ID": []
+          }
+        ],
+        "x-public": true
       }
     },
     "/api/v2/sandboxes/boxes/{name}/snapshot": {
@@ -39223,8 +39428,8 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
               "type": "integer",
+              "default": 20,
               "title": "Page Size"
             }
           },
@@ -39242,8 +39447,8 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "default": 50,
               "type": "integer",
+              "default": 50,
               "title": "Limit"
             }
           },
@@ -39252,8 +39457,8 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "default": 0,
               "type": "integer",
+              "default": 0,
               "title": "Offset"
             }
           },
@@ -39303,8 +39508,8 @@
             "name": "sort_by",
             "in": "query",
             "schema": {
-              "default": "created_at",
               "type": "string",
+              "default": "created_at",
               "title": "Sort By"
             }
           },
@@ -39313,8 +39518,8 @@
             "name": "sort_order",
             "in": "query",
             "schema": {
-              "default": "desc",
               "type": "string",
+              "default": "desc",
               "title": "Sort Order"
             }
           },
@@ -39323,8 +39528,8 @@
             "name": "sort_direction",
             "in": "query",
             "schema": {
-              "default": "desc",
               "type": "string",
+              "default": "desc",
               "title": "Sort Direction"
             }
           }
@@ -39819,10 +40024,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
-              "minimum": 1,
-              "maximum": 100,
               "type": "integer",
+              "minimum": 1,
+              "default": 20,
+              "maximum": 100,
               "title": "Page Size"
             }
           },
@@ -39831,12 +40036,12 @@
             "name": "granularity",
             "in": "query",
             "schema": {
-              "default": "HOUR",
               "enum": [
                 "HOUR",
                 "RESOURCE"
               ],
               "type": "string",
+              "default": "HOUR",
               "title": "Granularity"
             }
           },
@@ -41693,10 +41898,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
-              "minimum": 1,
-              "maximum": 100,
               "type": "integer",
+              "minimum": 1,
+              "default": 20,
+              "maximum": 100,
               "title": "Page Size"
             }
           },
@@ -44099,10 +44304,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "default": 50,
-              "minimum": 1,
-              "maximum": 100,
               "type": "integer",
+              "minimum": 1,
+              "default": 50,
+              "maximum": 100,
               "title": "Limit"
             }
           },
@@ -44110,9 +44315,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "default": 0,
-              "minimum": 0,
               "type": "integer",
+              "minimum": 0,
+              "default": 0,
               "title": "Offset"
             }
           }
@@ -45075,10 +45280,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "default": 20,
-              "minimum": 1,
-              "maximum": 100,
               "type": "integer",
+              "minimum": 1,
+              "default": 20,
+              "maximum": 100,
               "title": "Page Size"
             }
           },
@@ -47529,6 +47734,7 @@
           "delete_sandbox_policy",
           "create_computer_environment",
           "update_computer_environment",
+          "archive_computer_environment",
           "list_sandbox_claims",
           "get_sandbox_claim",
           "get_sandbox_claim_status",
@@ -77628,8 +77834,8 @@
             "type": "boolean"
           },
           "byoc_external_id": {
-            "readOnly": true,
             "description": "ByocExternalID is the organization's assigned AWS external ID, stored only in org config.",
+            "readOnly": true,
             "anyOf": [
               {
                 "type": "string"
@@ -79178,6 +79384,10 @@
           },
           "managed_code_evaluator_settings": {
             "$ref": "#/components/schemas/evaluators.ManagedCodeEvaluatorSettings"
+          },
+          "require_attachments": {
+            "description": "RequireAttachments opts the evaluator into selecting/presigning run\nattachments (s3_urls) at evaluation time. Default false.",
+            "type": "boolean"
           }
         }
       },
@@ -79209,6 +79419,10 @@
           },
           "managed_code_evaluator_settings": {
             "$ref": "#/components/schemas/evaluators.ManagedCodeEvaluatorSettings"
+          },
+          "require_attachments": {
+            "description": "RequireAttachments opts the evaluator into selecting/presigning run\nattachments (s3_urls) at evaluation time. Default false.",
+            "type": "boolean"
           }
         }
       },
@@ -79575,6 +79789,10 @@
           },
           "managed_code_evaluator_settings": {
             "$ref": "#/components/schemas/evaluators.ManagedCodeEvaluatorSettings"
+          },
+          "require_attachments": {
+            "description": "RequireAttachments is fetch-time config: updating it does not rebuild\nthe sandbox snapshot.",
+            "type": "boolean"
           }
         }
       },
@@ -84173,6 +84391,69 @@
                 "type": "null"
               }
             ]
+          }
+        }
+      },
+      "sandboxes.ServiceURLGrantListResponse": {
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor"
+        ],
+        "properties": {
+          "items": {
+            "description": "This page of the ports the sandbox is shared on.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/sandboxes.ServiceURLGrantResponse"
+            }
+          },
+          "next_cursor": {
+            "description": "Cursor for the next page, or null on the last page. A non-null value is\nthe only signal that more pages exist. Treat it as opaque.",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "sandboxes.ServiceURLGrantResponse": {
+        "type": "object",
+        "required": [
+          "access",
+          "created_at",
+          "port"
+        ],
+        "properties": {
+          "access": {
+            "description": "How the port is shared: \"token\" for a minted service token, or\n\"restricted\"/\"workspace\" for LangSmith login.",
+            "type": "string",
+            "enum": [
+              "token",
+              "restricted",
+              "workspace"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "description": "The LangSmith user who first shared this port, when known.",
+            "type": "string",
+            "format": "uuid"
+          },
+          "expires_at": {
+            "description": "When the share expires. Set only for \"token\"; a login grant does not expire.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "port": {
+            "type": "integer"
           }
         }
       },
