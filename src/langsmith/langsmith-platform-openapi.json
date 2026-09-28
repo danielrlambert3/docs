@@ -26333,10 +26333,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -26345,9 +26345,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "minimum": 0,
               "type": "integer",
               "default": 0,
+              "minimum": 0,
               "title": "Offset"
             }
           },
@@ -40138,10 +40138,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -42012,10 +42012,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -44493,10 +44493,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "default": 50,
               "maximum": 100,
+              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -44504,9 +44504,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
-              "minimum": 0,
               "type": "integer",
               "default": 0,
+              "minimum": 0,
               "title": "Offset"
             }
           }
@@ -45469,10 +45469,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
-              "minimum": 1,
               "type": "integer",
               "default": 20,
               "maximum": 100,
+              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -78196,8 +78196,8 @@
             "type": "boolean"
           },
           "byoc_external_id": {
-            "description": "ByocExternalID is the organization's assigned AWS external ID, stored only in org config.",
             "readOnly": true,
+            "description": "ByocExternalID is the organization's assigned AWS external ID, stored only in org config.",
             "anyOf": [
               {
                 "type": "string"
