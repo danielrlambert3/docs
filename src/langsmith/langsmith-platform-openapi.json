@@ -2842,22 +2842,6 @@
         ],
         "summary": "List current workspace secrets",
         "operationId": "list_current_workspace_secrets_api_v1_workspaces_current_secrets_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/SecretKey"
-                  },
-                  "type": "array",
-                  "title": "Response List Current Workspace Secrets Api V1 Workspaces Current Secrets Get"
-                }
-              }
-            }
-          }
-        },
         "security": [
           {
             "API Key": []
@@ -2869,6 +2853,46 @@
             "Bearer Auth": []
           }
         ],
+        "parameters": [
+          {
+            "name": "include_configs",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "If true, include the hosts each secret may be sent to.",
+              "default": false,
+              "title": "Include Configs"
+            },
+            "description": "If true, include the hosts each secret may be sent to."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkspaceSecret"
+                  },
+                  "title": "Response List Current Workspace Secrets Api V1 Workspaces Current Secrets Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
         "x-public": true
       },
       "post": {
@@ -2877,19 +2901,30 @@
         ],
         "summary": "Upsert current workspace secrets",
         "operationId": "upsert_current_workspace_secrets_api_v1_workspaces_current_secrets_post",
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "Tenant ID": []
+          },
+          {
+            "Bearer Auth": []
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
+                "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/SecretUpsert"
                 },
-                "type": "array",
                 "title": "Secrets"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2911,6 +2946,17 @@
             }
           }
         },
+        "x-public": true
+      }
+    },
+    "/api/v1/workspaces/current/secrets/{key}": {
+      "put": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Put current workspace secret",
+        "description": "Create or update a workspace secret and the hosts it may be sent to.\n\nOmit `value` to keep the current one; it is required to create a secret.\n`configs` replaces the secret's hosts; omitted or empty restores the\nbuilt-in defaults for known provider keys. The value is never returned.",
+        "operationId": "put_current_workspace_secret_api_v1_workspaces_current_secrets__key__put",
         "security": [
           {
             "API Key": []
@@ -2922,6 +2968,123 @@
             "Bearer Auth": []
           }
         ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkspaceSecretUpsert"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceSecret"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Secret created.",
+            "headers": {
+              "Location": {
+                "description": "URL of the created secret.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceSecret"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            },
+            "description": "The value is missing for a new secret, or a host config is invalid."
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-public": true
+      },
+      "delete": {
+        "tags": [
+          "workspaces"
+        ],
+        "summary": "Delete current workspace secret",
+        "description": "Delete a workspace secret and its allowed hosts. Missing keys succeed.",
+        "operationId": "delete_current_workspace_secret_api_v1_workspaces_current_secrets__key__delete",
+        "security": [
+          {
+            "API Key": []
+          },
+          {
+            "Tenant ID": []
+          },
+          {
+            "Bearer Auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
         "x-public": true
       }
     },
@@ -8981,8 +9144,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -26345,10 +26508,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 20,
               "type": "integer",
               "maximum": 100,
-              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -26357,9 +26520,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
+              "minimum": 0,
               "default": 0,
               "type": "integer",
-              "minimum": 0,
               "title": "Offset"
             }
           },
@@ -27708,8 +27871,8 @@
             "name": "min_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Min Start Time"
             }
           },
@@ -27718,8 +27881,8 @@
             "name": "max_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Max Start Time"
             }
           },
@@ -27728,11 +27891,11 @@
             "name": "direction",
             "in": "query",
             "schema": {
-              "default": "forward",
               "enum": [
                 "forward",
                 "backward"
               ],
+              "default": "forward",
               "type": "string",
               "title": "Direction"
             }
@@ -27945,8 +28108,8 @@
             "name": "min_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Min Start Time"
             }
           },
@@ -27955,8 +28118,8 @@
             "name": "max_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Max Start Time"
             }
           }
@@ -28611,8 +28774,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -28730,8 +28893,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -28865,8 +29028,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -28875,8 +29038,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -30464,8 +30627,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -30554,8 +30717,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -30637,8 +30800,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -31209,8 +31372,8 @@
             "name": "trace_id",
             "in": "query",
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Trace Id"
             }
           },
@@ -34481,8 +34644,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -36372,8 +36535,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -36445,8 +36608,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36472,8 +36635,8 @@
             "name": "trace_id",
             "in": "query",
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Trace Id"
             }
           }
@@ -36547,8 +36710,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36557,8 +36720,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36567,8 +36730,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Start Time"
             }
           },
@@ -36665,8 +36828,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36759,8 +36922,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36883,8 +37046,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36893,8 +37056,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -36995,8 +37158,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -37005,8 +37168,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -37015,8 +37178,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Start Time"
             }
           },
@@ -37141,8 +37304,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -37418,8 +37581,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -37428,8 +37591,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Project Id"
             }
           },
@@ -37500,8 +37663,8 @@
             "name": "start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Start Time"
             }
           }
@@ -37635,8 +37798,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -37750,8 +37913,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -37863,8 +38026,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -40317,8 +40480,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Start Time"
             }
           },
@@ -40328,8 +40491,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "End Time"
             }
           },
@@ -40365,10 +40528,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 20,
               "type": "integer",
               "maximum": 100,
-              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -40377,11 +40540,11 @@
             "name": "granularity",
             "in": "query",
             "schema": {
-              "default": "HOUR",
               "enum": [
                 "HOUR",
                 "RESOURCE"
               ],
+              "default": "HOUR",
               "type": "string",
               "title": "Granularity"
             }
@@ -41762,8 +41925,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Project Id"
             }
           }
@@ -41967,8 +42130,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Project Id"
             }
           }
@@ -42102,8 +42265,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Session Id"
             }
           }
@@ -42254,10 +42417,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 20,
               "type": "integer",
               "maximum": 100,
-              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -42267,8 +42430,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Project Id"
             }
           },
@@ -42638,8 +42801,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -42656,8 +42819,8 @@
             "name": "max_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Max Start Time"
             }
           },
@@ -42666,8 +42829,8 @@
             "name": "min_start_time",
             "in": "query",
             "schema": {
-              "format": "date-time",
               "type": "string",
+              "format": "date-time",
               "title": "Min Start Time"
             }
           },
@@ -42677,8 +42840,8 @@
             "in": "query",
             "required": true,
             "schema": {
-              "format": "uuid",
               "type": "string",
+              "format": "uuid",
               "title": "Project Id"
             }
           },
@@ -42964,8 +43127,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -43063,8 +43226,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -43197,8 +43360,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -43208,8 +43371,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -43304,8 +43467,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -43315,8 +43478,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -43404,8 +43567,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -43415,8 +43578,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -44457,8 +44620,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -44530,8 +44693,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -44648,8 +44811,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -44758,10 +44921,10 @@
             "name": "limit",
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 50,
               "type": "integer",
               "maximum": 100,
-              "minimum": 1,
               "title": "Limit"
             }
           },
@@ -44769,9 +44932,9 @@
             "name": "offset",
             "in": "query",
             "schema": {
+              "minimum": 0,
               "default": 0,
               "type": "integer",
-              "minimum": 0,
               "title": "Offset"
             }
           }
@@ -45630,8 +45793,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -45734,10 +45897,10 @@
             "name": "page_size",
             "in": "query",
             "schema": {
+              "minimum": 1,
               "default": 20,
               "type": "integer",
               "maximum": 100,
-              "minimum": 1,
               "title": "Page Size"
             }
           },
@@ -48167,6 +48330,7 @@
           "read_workspace_encrypted_secrets",
           "update_workspace_secrets",
           "delete_workspace_secret",
+          "upsert_workspace_secret",
           "read_org_encrypted_secrets",
           "update_org_secrets",
           "unshare_entities",
@@ -57190,7 +57354,21 @@
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "The scale the score is checked against. If the feedback key already has a feedback config, this must match it exactly or the request is rejected; if it has none, this becomes the key's feedback config."
+          },
+          "feedback_config_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Config Id",
+            "description": "The ID of the feedback config this feedback was written against. It must be a feedback config for this feedback key in the same workspace, or the feedback is rejected. It doesn't change how the score is checked; feedback_config does that. If omitted, the server may record the key's enforced feedback config, or the one created for the key by this request."
           },
           "error": {
             "anyOf": [
@@ -73602,6 +73780,11 @@
           "organization_display_name": {
             "type": "string",
             "title": "Organization Display Name"
+          },
+          "provider_type": {
+            "$ref": "#/components/schemas/SSOProviderType",
+            "default": "saml",
+            "x-extensible-enum": true
           }
         },
         "type": "object",
@@ -73985,18 +74168,134 @@
         "title": "SavedRunClusteringJobRequest",
         "description": "Saved configuration for an Insights job."
       },
-      "SecretKey": {
+      "SecretConfig": {
         "properties": {
-          "key": {
+          "host_pattern": {
             "type": "string",
-            "title": "Key"
+            "title": "Host Pattern",
+            "description": "Exact host or a leading '*.' wildcard, e.g. 'api.openai.com'."
+          },
+          "header_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Header Name",
+            "description": "HTTP header the secret is sent in. Null leaves it to the consumer."
+          },
+          "header_value_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Header Value Template",
+            "description": "Header value with '{value}' replaced by the secret, e.g. 'Bearer {value}'. Null sends the raw secret."
+          },
+          "id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id",
+            "description": "Omitted for a built-in default."
+          },
+          "source": {
+            "$ref": "#/components/schemas/SecretConfigSource"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "Omitted for a built-in default."
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "Omitted for a built-in default."
           }
         },
         "type": "object",
         "required": [
-          "key"
+          "host_pattern",
+          "source"
         ],
-        "title": "SecretKey"
+        "title": "SecretConfig"
+      },
+      "SecretConfigInput": {
+        "properties": {
+          "host_pattern": {
+            "type": "string",
+            "title": "Host Pattern",
+            "description": "Exact host or a leading '*.' wildcard, e.g. 'api.openai.com'."
+          },
+          "header_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Header Name",
+            "description": "HTTP header the secret is sent in. Null leaves it to the consumer."
+          },
+          "header_value_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Header Value Template",
+            "description": "Header value with '{value}' replaced by the secret, e.g. 'Bearer {value}'. Null sends the raw secret."
+          }
+        },
+        "type": "object",
+        "required": [
+          "host_pattern"
+        ],
+        "title": "SecretConfigInput",
+        "description": "A host a workspace secret may be sent to, and how it is sent."
+      },
+      "SecretConfigSource": {
+        "type": "string",
+        "enum": [
+          "DEFAULT",
+          "CUSTOM"
+        ],
+        "title": "SecretConfigSource",
+        "description": "Whether a secret config comes from the built-in catalog or an admin."
       },
       "SecretUpsert": {
         "properties": {
@@ -77717,6 +78016,62 @@
         "title": "WorkspacePatch",
         "description": "Patch model for the workspace."
       },
+      "WorkspaceSecret": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "configs": {
+            "items": {
+              "$ref": "#/components/schemas/SecretConfig"
+            },
+            "type": "array",
+            "title": "Configs",
+            "description": "Hosts the secret may be sent to, with built-in defaults applied. Listed secrets include it only when include_configs is true."
+          }
+        },
+        "type": "object",
+        "required": [
+          "key"
+        ],
+        "title": "WorkspaceSecret",
+        "description": "A workspace secret's key and the hosts it may be sent to. Never the value."
+      },
+      "WorkspaceSecretUpsert": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value",
+            "description": "Secret value. Required to create a secret; omit to keep the current value."
+          },
+          "configs": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SecretConfigInput"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Configs",
+            "description": "Full replacement of the allowed hosts. Omitted or empty removes custom hosts so the built-in defaults, if any, apply."
+          }
+        },
+        "type": "object",
+        "title": "WorkspaceSecretUpsert"
+      },
       "_SSOEmailLookupRequest": {
         "properties": {
           "email": {
@@ -78896,8 +79251,8 @@
             "type": "boolean"
           },
           "byoc_external_id": {
-            "readOnly": true,
             "description": "ByocExternalID is the organization's assigned AWS external ID, stored only in org config.",
+            "readOnly": true,
             "anyOf": [
               {
                 "type": "string"
@@ -79424,6 +79779,7 @@
           "feedback-configs:create",
           "feedback-configs:update",
           "feedback-configs:delete",
+          "feedback-configs:manage-enforced",
           "experiments:run",
           "issues:create",
           "issues:delete",
@@ -79563,6 +79919,7 @@
           "FeedbackConfigsCreate",
           "FeedbackConfigsUpdate",
           "FeedbackConfigsDelete",
+          "FeedbackConfigsManageEnforced",
           "ExperimentsRun",
           "IssuesCreate",
           "IssuesDelete",
@@ -83806,11 +84163,23 @@
             "type": "boolean",
             "example": true
           },
+          "max_feedback_modified_at": {
+            "description": "`max_feedback_modified_at` is the exclusive upper bound (RFC3339) on feedback `modified_at`, applied to the feedback conditions in `filter`, `trace_filter`, or `tree_filter` (for example eq(feedback_key, \"correctness\")).\nRequires at least one feedback condition. Runs must still fall within the `start_time` window.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-12-31T23:59:59Z"
+          },
           "max_start_time": {
             "description": "`max_start_time` is the upper bound for run `start_time` (RFC3339). Defaults to now.",
             "type": "string",
             "format": "date-time",
             "example": "2024-12-31T23:59:59Z"
+          },
+          "min_feedback_modified_at": {
+            "description": "`min_feedback_modified_at` is the inclusive lower bound (RFC3339) on feedback `modified_at`, applied to the feedback conditions in `filter`, `trace_filter`, or `tree_filter` (for example eq(feedback_key, \"correctness\")).\nRequires at least one feedback condition. Runs must still fall within the `start_time` window.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-01T00:00:00Z"
           },
           "min_start_time": {
             "description": "`min_start_time` is the lower bound for run `start_time` (RFC3339). Defaults to 1 day ago.",
@@ -85914,20 +86283,29 @@
       },
       "sandboxes.ProxyGCPConfig": {
         "type": "object",
-        "required": [
-          "scopes",
-          "service_account_json"
-        ],
         "properties": {
           "scopes": {
+            "description": "Scopes are the OAuth scopes requested for the access token. Omit them to use https://www.googleapis.com/auth/cloud-platform.",
             "type": "array",
-            "minItems": 1,
             "items": {
               "type": "string"
             }
           },
+          "service_account_email": {
+            "description": "ServiceAccountEmail is the service account to impersonate with the federated token. Omit it to use the federated principal directly.",
+            "type": "string"
+          },
           "service_account_json": {
             "$ref": "#/components/schemas/sandboxes.ProxySecretValue"
+          },
+          "subject_scope": {
+            "description": "SubjectScope picks the token subject the provider trusts: \"workspace\" (the default) or \"tag:<tag value id>\", which must be one of the sandbox's tag_value_ids. Only valid with workload_identity_provider.",
+            "type": "string",
+            "pattern": "^(workspace|tag:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "workload_identity_provider": {
+            "description": "WorkloadIdentityProvider federates an OIDC token LangSmith signs for this workspace through Workload Identity Federation instead of a service account key. Use the full resource name: //iam.googleapis.com/projects/<number>/locations/global/workloadIdentityPools/<pool>/providers/<provider>. Cannot be changed after creation.",
+            "type": "string"
           }
         }
       },
@@ -86130,12 +86508,22 @@
       },
       "sandboxes.SandboxGCPMountAuthConfig": {
         "type": "object",
-        "required": [
-          "service_account_json"
-        ],
         "properties": {
+          "service_account_email": {
+            "description": "ServiceAccountEmail is the service account to impersonate with the federated token. Omit it to use the federated principal directly. Only valid with workload_identity_provider.",
+            "type": "string"
+          },
           "service_account_json": {
             "$ref": "#/components/schemas/sandboxes.ProxySecretValue"
+          },
+          "subject_scope": {
+            "description": "SubjectScope picks the token subject the provider trusts: \"workspace\" (the default) or \"tag:<tag value id>\", which must be one of the sandbox's tag_value_ids. Only valid with workload_identity_provider.",
+            "type": "string",
+            "pattern": "^(workspace|tag:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
+          },
+          "workload_identity_provider": {
+            "description": "WorkloadIdentityProvider federates an OIDC token LangSmith signs for this workspace through Workload Identity Federation instead of a service account key: //iam.googleapis.com/projects/<number>/locations/global/workloadIdentityPools/<pool>/providers/<provider>. Mutually exclusive with service_account_json. Cannot be changed after creation.",
+            "type": "string"
           }
         }
       },
@@ -88846,9 +89234,14 @@
         "type": "object",
         "properties": {
           "role_arn": {
-            "description": "RoleARN selects automatically renewed IAM-role credentials instead of static keys.\nAccess follows the role's effective AWS permissions, not the sandbox's mount scope.\nConfigure at creation; the role cannot be changed afterward.",
+            "description": "IAM role to assume with AssumeRoleWithWebIdentity, using a short-lived OIDC token LangSmith signs for this workspace. The role's trust policy must trust LangSmith's issuer for the token subject. Credentials renew automatically, and access follows the role's effective AWS permissions. Mutually exclusive with static keys, and cannot be changed after creation.",
             "type": "string",
             "minLength": 1
+          },
+          "subject_scope": {
+            "description": "SubjectScope picks the token subject the role trusts: \"workspace\" (the default) or \"tag:<tag value id>\", which must be one of the sandbox's tag_value_ids. Only valid with role_arn.",
+            "type": "string",
+            "pattern": "^(workspace|tag:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
           }
         },
         "required": [
@@ -88876,7 +89269,7 @@
             "$ref": "#/components/schemas/sandboxes.ProxySecretValue"
           },
           "role_arn": {
-            "description": "RoleARN selects automatically renewed IAM-role credentials instead of static keys.\nAccess follows the role's effective AWS permissions, not the sandbox's mount scope.\nConfigure at creation; the role cannot be changed afterward.",
+            "description": "IAM role to assume with AssumeRoleWithWebIdentity, using a short-lived OIDC token LangSmith signs for this workspace. The role's trust policy must trust LangSmith's issuer for the token subject. Credentials renew automatically, and access follows the role's effective AWS permissions. Mutually exclusive with static keys, and cannot be changed after creation.",
             "type": "string",
             "enum": [
               ""
@@ -88889,15 +89282,34 @@
         "required": [
           "access_key_id",
           "secret_access_key"
-        ]
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "subject_scope"
+              ],
+              "properties": {
+                "subject_scope": {
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        }
       },
       "sandboxes.SandboxAWSMountRoleAuthConfig": {
         "type": "object",
         "properties": {
           "role_arn": {
-            "description": "IAM role to assume with permissions scoped to the configured S3 mounts.\nMutually exclusive with static credentials. Configure only at creation.",
+            "description": "IAM role to assume with AssumeRoleWithWebIdentity, using a short-lived OIDC token LangSmith signs for this workspace; the role's trust policy must trust LangSmith's issuer for the token subject. LangSmith scopes the credentials to the configured S3 mounts. Mutually exclusive with static credentials, and cannot be changed after creation.",
             "type": "string",
             "minLength": 1
+          },
+          "subject_scope": {
+            "description": "SubjectScope picks the token subject the role trusts: \"workspace\" (the default) or \"tag:<tag value id>\", which must be one of the sandbox's tag_value_ids. Only valid with role_arn.",
+            "type": "string",
+            "pattern": "^(workspace|tag:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$"
           }
         },
         "required": [
@@ -88912,7 +89324,7 @@
             "$ref": "#/components/schemas/sandboxes.ProxySecretValue"
           },
           "role_arn": {
-            "description": "IAM role to assume with permissions scoped to the configured S3 mounts.\nMutually exclusive with static credentials. Configure only at creation.",
+            "description": "IAM role to assume with AssumeRoleWithWebIdentity, using a short-lived OIDC token LangSmith signs for this workspace; the role's trust policy must trust LangSmith's issuer for the token subject. LangSmith scopes the credentials to the configured S3 mounts. Mutually exclusive with static credentials, and cannot be changed after creation.",
             "type": "string",
             "enum": [
               ""
@@ -88925,7 +89337,21 @@
         "required": [
           "access_key_id",
           "secret_access_key"
-        ]
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "subject_scope"
+              ],
+              "properties": {
+                "subject_scope": {
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        }
       },
       "shared.SSEEvent": {
         "type": "object",
